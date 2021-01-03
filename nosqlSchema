@@ -1,0 +1,51 @@
+db.club_owner.insertOne(
+    {   id:integer,
+        userName: string,
+        password: string,
+        firstName: string,
+        lastName: string,
+        email: string,
+        phone: integer,
+        club: { name: string,
+                street: string,
+                city: 'sring, 
+                profit: [{  date: string, 
+                            outcome: float, 
+                            income: float}], 
+                pitch: [{pitch_num: integer, capacity: integer, price: float, type: integer}]
+                }
+    }
+)
+
+db.players.insertOne(
+    {   id: inetger,
+        userName: string,
+        password: string,
+        firstName: string,
+        lastName: string,
+        email: string,
+        birthdate: string,
+        visa: integer,
+        phone: integer,
+        schedule: [{ date: string,
+                    paid: integer,
+                    unpaid: integer,
+                    duration: integer,
+                    clubOwnerId: club_owner::integer,
+                    pitchNum: integer
+                   }]
+    }
+)
+
+ event: {   id:integer,
+            name: string,
+            startTime: string,
+            endTime: string,
+            noOfTeams: integer,
+            noOfTeamMembers: integer, 
+            availablePlaces: integer, 
+            prize: integer, 
+            pricePerTeam: inetger,
+            playerUserName: List[players:integer],
+            clubOwnerId: club_owner::integer
+            }
