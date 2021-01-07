@@ -1,13 +1,13 @@
 -- create database Yalla search engine
-DROP SCHEMA IF EXISTS `arena2`;
-CREATE SCHEMA `arena2`;
+DROP SCHEMA IF EXISTS `arena100k`;
+CREATE SCHEMA `arena100k`;
 
 -- select the database
-USE `arena2`;
+USE `arena100k`;
 -- CREATE DATABASE Arena
 
   -- create club owner table 
-CREATE TABLE IF NOT EXISTS `arena2`.`club_owner` (
+CREATE TABLE IF NOT EXISTS `arena100k`.`club_owner` (
 id INT(11) NOT NULL AUTO_INCREMENT,
 userName nvarchar(25) NOT NULL,
 password nvarchar(45) not null,
@@ -18,7 +18,7 @@ phone decimal(10) check(phone>999999999 AND phone<2000000000),
 primary key(id)
 );
 
-CREATE TABLE IF NOT EXISTS `arena2`.`club`(
+CREATE TABLE IF NOT EXISTS `arena100k`.`club`(
 id INT(11) NOT NULL AUTO_INCREMENT,
 name nvarchar(25),
 street nvarchar(50),
@@ -30,7 +30,7 @@ on delete set null on update cascade
 );
 
 
-CREATE TABLE IF NOT EXISTS `arena2`.`pitch`(
+CREATE TABLE IF NOT EXISTS `arena100k`.`pitch`(
 clubId int ,
 pitch_num int ,
 capacity int check(capacity in(5,7,11)),
@@ -42,7 +42,7 @@ on update cascade on delete cascade
 );
 
 
-CREATE TABLE IF NOT EXISTS `arena2`.`player`(
+CREATE TABLE IF NOT EXISTS `arena100k`.`player`(
 id INT(11) NOT NULL AUTO_INCREMENT,
 userName nvarchar(25),
 password nvarchar(45) not null,
@@ -59,7 +59,7 @@ primary key (id)
 
 
 
-CREATE TABLE IF NOT EXISTS `arena2`.`event`(
+CREATE TABLE IF NOT EXISTS `arena100k`.`event`(
 eventId INT(11) NOT NULL AUTO_INCREMENT,
 clubId int ,
 name nvarchar(150),
@@ -82,7 +82,7 @@ on delete cascade on update cascade
 );
 
 
-CREATE TABLE IF NOT EXISTS `arena2`.`schedule`(
+CREATE TABLE IF NOT EXISTS `arena100k`.`schedule`(
 yyyy int(4),
 mm int(2),
 dd int(2),
@@ -91,14 +91,15 @@ paid float check(paid>0),
 unpaid float check(unpaid>=0),
 clubId int,
 pitch_num int,
-playerUserName nvarchar(25),
+playerId INT(11),
 primary key (yyyy,mm,dd,hh,clubId,pitch_num),
+foreign key (playerId) references player(id),
 foreign key (clubId,pitch_num) references pitch(clubId,pitch_num)
 on delete cascade on update cascade
 );
 
 
-CREATE TABLE IF NOT EXISTS `arena2`.`profit`(
+CREATE TABLE IF NOT EXISTS `arena100k`.`profit`(
 clubId int,
 yyyy int(4),
 mm int(2),
@@ -111,14 +112,13 @@ on delete cascade on update cascade
 );
 
 
-CREATE TABLE IF NOT EXISTS `arena2`.`participate`(
-id INT(11) NOT NULL AUTO_INCREMENT,
-playerUserName nvarchar(25),
+CREATE TABLE IF NOT EXISTS `arena100k`.`participate`(
+playerId INT(11),
 eventId int,
 clubId int,
-primary key (id,eventId,clubId),
+primary key (playerId,eventId,clubId),
 foreign key (eventId,clubId) references Event (eventId,clubId)
 on delete cascade on update cascade,
-foreign key (id) references player(id)
+foreign key (playerId) references player(id)
 on delete cascade on update no action
 );
