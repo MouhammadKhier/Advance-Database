@@ -1,5 +1,5 @@
 use arena100k;
-select SQL_NO_CACHE  *
+select SQL_NO_CACHE *
 from club_owner,club,participate
 where 
 (club_owner.firstName like 'a%' or club_owner.firstName like 'b%')
