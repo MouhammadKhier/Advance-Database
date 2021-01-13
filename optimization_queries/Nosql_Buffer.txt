@@ -1,12 +1,13 @@
 db.events.aggregate([
     {
         $match: {
+            "name" : /\w+(a)\w+/,
             "prize": {$gt: 1000}
         }
     
     },
     {
-    $limit: 5000
+        $limit: 5000
     }
     ,
     {
@@ -20,7 +21,7 @@ db.events.aggregate([
     { "$unwind": "$club_info" },
     {
         $match: {
-        "club_info.firstName" : /\w+(a)\w+/
+        "club_info.club.profit.income" : {$gt: 1500} 
         }
     }
 ], {

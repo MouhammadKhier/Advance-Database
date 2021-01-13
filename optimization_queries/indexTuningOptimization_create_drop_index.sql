@@ -1,4 +1,13 @@
-CREATE INDEX idx_syyyy
-ON event (Syyyy);
+-- Index tuning
+-- CREATE INDEX idx_syyyy
+-- ON event (Syyyy);
 -- ALTER TABLE event
 -- DROP INDEX idx_syyyy;
+
+-- poor indexing
+-- CREATE INDEX idx_income2
+-- ON profit (income);
+-- ALTER TABLE profit
+-- DROP INDEX idx_income2;
+-- CREATE INDEX idx_income2
+-- ON profit (income);
