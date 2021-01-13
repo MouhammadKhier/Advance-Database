@@ -1,0 +1,36 @@
+db.events.aggregate([
+    {
+        $match:{
+        "startTime": {$gt: "2003-01-01", $lt: "2005-01-01"}
+        }
+    },
+    {
+    $limit: 5000 
+    },  
+    {
+        $lookup:{
+            from:"club_owner",
+            localField:"clubOwnerId",
+            foreignField:"id",
+            as:"club_info"
+        }
+     }
+     ,
+     { "$unwind": "$club_info" },
+     { "$project": {
+             "name": 1,
+             "startTime": 1,
+             "endTime": 1,
+             "club_info.userName": 1,
+             "club_info.club.profit.income": 1,
+             "club_info.club.name": 1
+        } 
+     },
+     {
+        $match:{
+             "club_info.club.profit.income": {$gt: 15, $lt: 3000}
+        }
+     }
+], {
+        "allowDiskUse": true
+    })

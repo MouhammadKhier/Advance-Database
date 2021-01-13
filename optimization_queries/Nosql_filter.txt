@@ -1,0 +1,33 @@
+
+db.players.aggregate([
+    {
+        $project: {
+            "schedule": 1
+        }
+    },
+    {
+    $limit: 5000
+    },
+    {
+        $match: {
+            "schedule.date" : {$lt: "2000-01-13"}
+        }
+    
+    },
+    {
+        $lookup: {
+            from:"club_owner",
+            localField:"schedule.clubOwnerId",
+            foreignField:"id",
+            as:"club_info"
+        }
+    },
+    { "$unwind": "$club_info" },
+    {
+        $match: {
+        "club_info.id" : {$gt: 70000} 
+        }
+    }
+], {
+        "allowDiskUse": true
+   })
